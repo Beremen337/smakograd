@@ -22,11 +22,8 @@
       --line:rgba(243,217,164,0.14);
       --cut:14px;
     }
-
     *{box-sizing:border-box; margin:0; padding:0;}
-
     html{scroll-behavior:smooth;}
-
     body{
       background:var(--bg-deep);
       color:var(--text-light);
@@ -37,415 +34,111 @@
         radial-gradient(ellipse 900px 500px at 15% -5%, rgba(226,150,63,0.10), transparent 60%),
         radial-gradient(ellipse 700px 500px at 90% 10%, rgba(127,174,114,0.08), transparent 60%);
     }
-
-    h1,h2,h3,h4{
-      font-family:'Space Grotesk',sans-serif;
-      font-weight:600;
-      letter-spacing:-0.01em;
-    }
-
+    h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:-0.01em;}
     .mono{font-family:'JetBrains Mono',monospace;}
-
     a{color:inherit; text-decoration:none;}
-
-    .wrap{
-      max-width:1180px;
-      margin:0 auto;
-      padding:0 32px;
-    }
-
+    .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
     ::selection{background:var(--amber); color:#1a1408;}
-
     ::-webkit-scrollbar{height:10px; width:10px;}
     ::-webkit-scrollbar-track{background:var(--bg-panel);}
     ::-webkit-scrollbar-thumb{background:var(--stone); border:2px solid var(--bg-panel);}
-
-    .cut{
-      clip-path: polygon(
-        0 var(--cut), var(--cut) 0,
-        calc(100% - var(--cut)) 0, 100% var(--cut),
-        100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%,
-        var(--cut) 100%, 0 calc(100% - var(--cut))
-      );
-    }
+    .cut{clip-path: polygon(0 var(--cut), var(--cut) 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));}
     .cut-sm{ --cut:8px; }
-
-    header{
-      position:sticky; top:0; z-index:100;
-      background:rgba(18,28,22,0.86);
-      backdrop-filter:blur(10px);
-      border-bottom:1px solid var(--line);
-    }
-    .nav{
-      display:flex; align-items:center; justify-content:space-between;
-      padding:18px 32px;
-      max-width:1180px; margin:0 auto;
-    }
-    .logo{
-      display:flex; align-items:center; gap:10px;
-      font-family:'Space Grotesk',sans-serif;
-      font-weight:700; font-size:20px;
-      letter-spacing:-0.01em;
-    }
-    .logo-mark{
-      width:26px; height:26px;
-      background:linear-gradient(135deg, var(--amber), var(--vanilla));
-      display:inline-block;
-      clip-path: polygon(0 30%, 30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%);
-    }
-    .nav-links{
-      display:flex; gap:30px; align-items:center;
-      font-size:14.5px; color:var(--text-muted);
-    }
+    header{position:sticky; top:0; z-index:100; background:rgba(18,28,22,0.86); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+    .nav{display:flex; align-items:center; justify-content:space-between; padding:18px 32px; max-width:1180px; margin:0 auto;}
+    .logo{display:flex; align-items:center; gap:10px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:20px; letter-spacing:-0.01em;}
+    .logo-mark{width:26px; height:26px; background:linear-gradient(135deg, var(--amber), var(--vanilla)); display:inline-block; clip-path: polygon(0 30%, 30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%);}
+    .nav-links{display:flex; gap:30px; align-items:center; font-size:14.5px; color:var(--text-muted);}
     .nav-links a{transition:color .2s;}
     .nav-links a:hover{color:var(--vanilla);}
-    .nav-cta{
-      display:flex; gap:12px; align-items:center;
-    }
+    .nav-cta{display:flex; gap:12px; align-items:center;}
     .burger{display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none;}
     .burger span{width:22px; height:2px; background:var(--vanilla);}
-
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:8px;
-      padding:13px 24px;
-      font-family:'Space Grotesk',sans-serif;
-      font-weight:600; font-size:14.5px;
-      border:none; cursor:pointer;
-      transition:transform .15s ease, filter .15s ease;
-    }
+    .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:13px 24px; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14.5px; border:none; cursor:pointer; transition:transform .15s ease, filter .15s ease;}
     .btn:active{transform:scale(0.97);}
-    .btn-primary{
-      background:linear-gradient(135deg, var(--amber), #c97a26);
-      color:#1a1206;
-    }
+    .btn-primary{background:linear-gradient(135deg, var(--amber), #c97a26); color:#1a1206;}
     .btn-primary:hover{filter:brightness(1.1);}
-    .btn-ghost{
-      background:transparent;
-      border:1px solid var(--line);
-      color:var(--text-light);
-    }
+    .btn-ghost{background:transparent; border:1px solid var(--line); color:var(--text-light);}
     .btn-ghost:hover{border-color:var(--vanilla-dim); color:var(--vanilla);}
     .btn-sm{padding:9px 16px; font-size:13px;}
-
-    .hero{
-      position:relative;
-      padding:120px 0 90px;
-      overflow:hidden;
-    }
-    .hero-motes span{
-      position:absolute;
-      background:var(--vanilla);
-      opacity:.5;
-      width:5px; height:5px;
-      animation: float 9s ease-in-out infinite;
-    }
-    @keyframes float{
-      0%,100%{ transform:translateY(0px); opacity:.15;}
-      50%{ transform:translateY(-26px); opacity:.6;}
-    }
-    .eyebrow{
-      display:inline-flex; align-items:center; gap:8px;
-      font-family:'JetBrains Mono',monospace;
-      font-size:12.5px; color:var(--moss);
-      text-transform:uppercase; letter-spacing:.12em;
-      margin-bottom:22px;
-    }
-    .eyebrow-dot{width:7px; height:7px; background:var(--moss); box-shadow:0 0 8px var(--moss); }
-
-    .hero h1{
-      font-size:clamp(42px, 7vw, 84px);
-      line-height:0.98;
-      max-width:780px;
-      color:var(--text-light);
-    }
-    .hero h1 em{
-      font-style:normal;
-      background:linear-gradient(120deg, var(--vanilla), var(--amber));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-    }
-    .hero-sub{
-      max-width:520px;
-      margin-top:22px;
-      font-size:17px;
-      color:var(--text-muted);
-    }
-    .hero-actions{
-      display:flex; gap:14px; margin-top:38px; flex-wrap:wrap;
-    }
-
-    .ip-box{
-      margin-top:46px;
-      display:inline-flex; align-items:center; gap:0;
-      background:var(--bg-panel);
-      border:1px solid var(--line);
-    }
-    .ip-box .label{
-      padding:14px 18px;
-      font-family:'JetBrains Mono',monospace;
-      font-size:12px; color:var(--text-muted);
-      border-right:1px solid var(--line);
-      text-transform:uppercase; letter-spacing:.08em;
-    }
-    .ip-box .addr{
-      padding:14px 18px;
-      font-family:'JetBrains Mono',monospace;
-      font-size:15px; color:var(--vanilla);
-    }
-    .ip-box button{
-      padding:14px 18px;
-      background:none; border:none; border-left:1px solid var(--line);
-      color:var(--text-muted); cursor:pointer; font-family:'JetBrains Mono',monospace;
-      font-size:12px; transition:color .2s;
-    }
+    .hero{position:relative; padding:120px 0 90px; overflow:hidden;}
+    .hero-motes span{position:absolute; background:var(--vanilla); opacity:.5; width:5px; height:5px; animation: float 9s ease-in-out infinite;}
+    @keyframes float{0%,100%{ transform:translateY(0px); opacity:.15;} 50%{ transform:translateY(-26px); opacity:.6;}}
+    .eyebrow{display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--moss); text-transform:uppercase; letter-spacing:.12em; margin-bottom:22px;}
+    .eyebrow-dot{width:7px; height:7px; background:var(--moss); box-shadow:0 0 8px var(--moss);}
+    .hero h1{font-size:clamp(42px, 7vw, 84px); line-height:0.98; max-width:780px; color:var(--text-light);}
+    .hero h1 em{font-style:normal; background:linear-gradient(120deg, var(--vanilla), var(--amber)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+    .hero-sub{max-width:520px; margin-top:22px; font-size:17px; color:var(--text-muted);}
+    .hero-actions{display:flex; gap:14px; margin-top:38px; flex-wrap:wrap;}
+    .ip-box{margin-top:46px; display:inline-flex; align-items:center; gap:0; background:var(--bg-panel); border:1px solid var(--line);}
+    .ip-box .label{padding:14px 18px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-muted); border-right:1px solid var(--line); text-transform:uppercase; letter-spacing:.08em;}
+    .ip-box .addr{padding:14px 18px; font-family:'JetBrains Mono',monospace; font-size:15px; color:var(--vanilla);}
+    .ip-box button{padding:14px 18px; background:none; border:none; border-left:1px solid var(--line); color:var(--text-muted); cursor:pointer; font-family:'JetBrains Mono',monospace; font-size:12px; transition:color .2s;}
     .ip-box button:hover{color:var(--amber);}
-
     section{padding:110px 0;}
-    .section-head{
-      max-width:640px;
-      margin-bottom:56px;
-    }
+    .section-head{max-width:640px; margin-bottom:56px;}
     .section-head .eyebrow{color:var(--amber);}
     .section-head .eyebrow .eyebrow-dot{background:var(--amber); box-shadow:0 0 8px var(--amber);}
-    .section-head h2{
-      font-size:clamp(30px,4vw,44px);
-      margin-top:12px;
-    }
-    .section-head p{
-      color:var(--text-muted);
-      margin-top:14px;
-      font-size:16px;
-      max-width:560px;
-    }
-
-    hr.divider{
-      border:none; height:1px;
-      background:linear-gradient(90deg, transparent, var(--line), transparent);
-      margin:0;
-    }
-
-    .about-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:1px;
-      background:var(--line);
-      border:1px solid var(--line);
-    }
-    .about-card{
-      background:var(--bg-panel);
-      padding:36px 30px;
-    }
-    .about-card .ic{
-      width:38px; height:38px;
-      margin-bottom:22px;
-      background:var(--bg-panel-2);
-      display:flex; align-items:center; justify-content:center;
-      clip-path: polygon(0 22%, 22% 0, 78% 0, 100% 22%, 100% 78%, 78% 100%, 22% 100%, 0 78%);
-    }
+    .section-head h2{font-size:clamp(30px,4vw,44px); margin-top:12px;}
+    .section-head p{color:var(--text-muted); margin-top:14px; font-size:16px; max-width:560px;}
+    hr.divider{border:none; height:1px; background:linear-gradient(90deg, transparent, var(--line), transparent); margin:0;}
+    .about-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+    .about-card{background:var(--bg-panel); padding:36px 30px;}
+    .about-card .ic{width:38px; height:38px; margin-bottom:22px; background:var(--bg-panel-2); display:flex; align-items:center; justify-content:center; clip-path: polygon(0 22%, 22% 0, 78% 0, 100% 22%, 100% 78%, 78% 100%, 22% 100%, 0 78%);}
     .about-card h3{font-size:18px; margin-bottom:10px;}
     .about-card p{color:var(--text-muted); font-size:14.5px;}
-
-    .menu-strip{
-      display:flex;
-      gap:18px;
-      overflow-x:auto;
-      padding:8px 4px 26px;
-      scroll-snap-type:x mandatory;
-    }
+    .menu-strip{display:flex; gap:18px; overflow-x:auto; padding:8px 4px 26px; scroll-snap-type:x mandatory;}
     .menu-strip::-webkit-scrollbar{height:6px;}
-    .season-card{
-      flex:0 0 300px;
-      scroll-snap-align:start;
-      background:var(--bg-panel);
-      border:1px solid var(--line);
-      padding:26px 24px;
-      display:flex; flex-direction:column;
-      min-height:340px;
-      position:relative;
-      transition:border-color .2s, transform .2s;
-    }
+    .season-card{flex:0 0 300px; scroll-snap-align:start; background:var(--bg-panel); border:1px solid var(--line); padding:26px 24px; display:flex; flex-direction:column; min-height:340px; position:relative; transition:border-color .2s, transform .2s;}
     .season-card:hover{border-color:var(--vanilla-dim); transform:translateY(-4px);}
-    .season-num{
-      font-family:'JetBrains Mono',monospace;
-      font-size:12px; color:var(--text-muted);
-      letter-spacing:.1em;
-    }
-    .season-card h3{
-      font-size:23px; margin-top:14px; color:var(--vanilla);
-    }
-    .season-dates{
-      font-family:'JetBrains Mono',monospace; font-size:12px;
-      color:var(--text-muted); margin-top:8px;
-    }
-    .season-card p{
-      color:var(--text-muted); font-size:14px; margin-top:16px; flex:1;
-    }
-    .badge{
-      align-self:flex-start;
-      margin-top:18px;
-      padding:6px 12px;
-      font-family:'JetBrains Mono',monospace;
-      font-size:11px; text-transform:uppercase; letter-spacing:.08em;
-    }
+    .season-num{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-muted); letter-spacing:.1em;}
+    .season-card h3{font-size:23px; margin-top:14px; color:var(--vanilla);}
+    .season-dates{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-muted); margin-top:8px;}
+    .season-card p{color:var(--text-muted); font-size:14px; margin-top:16px; flex:1;}
+    .badge{align-self:flex-start; margin-top:18px; padding:6px 12px; font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.08em;}
     .badge.live{background:rgba(127,174,114,0.16); color:var(--moss);}
     .badge.done{background:rgba(159,172,156,0.12); color:var(--text-muted);}
     .badge.soon{background:rgba(226,150,63,0.16); color:var(--amber);}
-
-    .rules-grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:14px;
-    }
-    .rule-item{
-      display:flex; gap:16px;
-      padding:22px 24px;
-      background:var(--bg-panel);
-      border:1px solid var(--line);
-    }
-    .rule-item .n{
-      font-family:'JetBrains Mono',monospace;
-      color:var(--amber); font-size:13px; flex-shrink:0; padding-top:2px;
-    }
+    .rules-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
+    .rule-item{display:flex; gap:16px; padding:22px 24px; background:var(--bg-panel); border:1px solid var(--line);}
+    .rule-item .n{font-family:'JetBrains Mono',monospace; color:var(--amber); font-size:13px; flex-shrink:0; padding-top:2px;}
     .rule-item h4{font-size:15.5px; margin-bottom:6px;}
     .rule-item p{font-size:13.5px; color:var(--text-muted);}
-
-    .apply-shell{
-      display:grid;
-      grid-template-columns:0.9fr 1.1fr;
-      gap:0;
-      border:1px solid var(--line);
-    }
-    .apply-side{
-      background:var(--bg-panel-2);
-      padding:48px 40px;
-    }
-    .apply-side .step{
-      display:flex; gap:14px; margin-bottom:26px;
-    }
-    .apply-side .step .dot{
-      width:26px; height:26px; flex-shrink:0;
-      background:var(--bg-panel);
-      border:1px solid var(--line);
-      display:flex; align-items:center; justify-content:center;
-      font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--vanilla);
-    }
+    .apply-shell{display:grid; grid-template-columns:0.9fr 1.1fr; gap:0; border:1px solid var(--line);}
+    .apply-side{background:var(--bg-panel-2); padding:48px 40px;}
+    .apply-side .step{display:flex; gap:14px; margin-bottom:26px;}
+    .apply-side .step .dot{width:26px; height:26px; flex-shrink:0; background:var(--bg-panel); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--vanilla);}
     .apply-side .step h4{font-size:14.5px; margin-bottom:4px;}
     .apply-side .step p{font-size:13px; color:var(--text-muted);}
-
-    .apply-form{
-      background:var(--bg-panel);
-      padding:48px 40px;
-    }
+    .apply-form{background:var(--bg-panel); padding:48px 40px;}
     .field{margin-bottom:20px;}
-    .field label{
-      display:block; font-size:13px; color:var(--text-muted); margin-bottom:8px;
-      font-family:'JetBrains Mono',monospace;
-    }
-    .field input, .field textarea, .field select{
-      width:100%;
-      background:var(--bg-deep);
-      border:1px solid var(--line);
-      color:var(--text-light);
-      padding:13px 14px;
-      font-family:'Inter',sans-serif;
-      font-size:14.5px;
-      transition:border-color .2s;
-    }
-    .field input:focus, .field textarea:focus, .field select:focus{
-      outline:none; border-color:var(--vanilla-dim);
-    }
+    .field label{display:block; font-size:13px; color:var(--text-muted); margin-bottom:8px; font-family:'JetBrains Mono',monospace;}
+    .field input, .field textarea, .field select{width:100%; background:var(--bg-deep); border:1px solid var(--line); color:var(--text-light); padding:13px 14px; font-family:'Inter',sans-serif; font-size:14.5px; transition:border-color .2s;}
+    .field input:focus, .field textarea:focus, .field select:focus{outline:none; border-color:var(--vanilla-dim);}
     .field textarea{resize:vertical; min-height:100px;}
     .field-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
-    .checkline{
-      display:flex; align-items:flex-start; gap:10px;
-      font-size:13px; color:var(--text-muted);
-      margin-bottom:26px;
-    }
+    .checkline{display:flex; align-items:flex-start; gap:10px; font-size:13px; color:var(--text-muted); margin-bottom:26px;}
     .checkline input{width:16px; height:16px; margin-top:2px; accent-color:var(--amber);}
-
-    .form-msg{
-      display:none;
-      padding:16px 18px;
-      background:rgba(127,174,114,0.14);
-      border:1px solid var(--moss-dim);
-      color:var(--moss);
-      font-size:13.5px;
-      margin-bottom:20px;
-    }
+    .form-msg{display:none; padding:16px 18px; background:rgba(127,174,114,0.14); border:1px solid var(--moss-dim); color:var(--moss); font-size:13.5px; margin-bottom:20px;}
     .form-msg.show{display:block;}
-
-    .faq-item{
-      border-bottom:1px solid var(--line);
-    }
-    .faq-q{
-      width:100%;
-      display:flex; align-items:center; justify-content:space-between;
-      padding:24px 4px;
-      background:none; border:none; cursor:pointer;
-      text-align:left;
-      color:var(--text-light);
-      font-family:'Space Grotesk',sans-serif;
-      font-size:17px; font-weight:500;
-    }
-    .faq-q .plus{
-      font-family:'JetBrains Mono',monospace;
-      color:var(--amber); font-size:18px;
-      transition:transform .25s;
-      flex-shrink:0; margin-left:20px;
-    }
+    .faq-item{border-bottom:1px solid var(--line);}
+    .faq-q{width:100%; display:flex; align-items:center; justify-content:space-between; padding:24px 4px; background:none; border:none; cursor:pointer; text-align:left; color:var(--text-light); font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:500;}
+    .faq-q .plus{font-family:'JetBrains Mono',monospace; color:var(--amber); font-size:18px; transition:transform .25s; flex-shrink:0; margin-left:20px;}
     .faq-item.open .plus{transform:rotate(45deg);}
-    .faq-a{
-      max-height:0; overflow:hidden;
-      transition:max-height .3s ease;
-    }
-    .faq-a p{
-      padding:0 4px 24px; color:var(--text-muted); font-size:14.5px; max-width:640px;
-    }
-
-    footer{
-      border-top:1px solid var(--line);
-      padding:60px 0 34px;
-    }
-    .footer-top{
-      display:flex; justify-content:space-between; align-items:flex-start;
-      flex-wrap:wrap; gap:40px;
-      padding-bottom:44px;
-    }
+    .faq-a{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+    .faq-a p{padding:0 4px 24px; color:var(--text-muted); font-size:14.5px; max-width:640px;}
+    footer{border-top:1px solid var(--line); padding:60px 0 34px;}
+    .footer-top{display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:40px; padding-bottom:44px;}
     .footer-brand p{color:var(--text-muted); font-size:13.5px; max-width:280px; margin-top:12px;}
     .footer-links{display:flex; gap:60px; flex-wrap:wrap;}
-    .footer-col h5{
-      font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-muted);
-      text-transform:uppercase; letter-spacing:.1em; margin-bottom:16px;
-    }
-    .footer-col a{
-      display:block; font-size:14px; color:var(--text-light); margin-bottom:10px; transition:color .2s;
-    }
+    .footer-col h5{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.1em; margin-bottom:16px;}
+    .footer-col a{display:block; font-size:14px; color:var(--text-light); margin-bottom:10px; transition:color .2s;}
     .footer-col a:hover{color:var(--amber);}
-    .footer-bottom{
-      display:flex; justify-content:space-between; align-items:center;
-      font-size:12.5px; color:var(--text-muted); flex-wrap:wrap; gap:12px;
-      font-family:'JetBrains Mono',monospace;
-    }
-
+    .footer-bottom{display:flex; justify-content:space-between; align-items:center; font-size:12.5px; color:var(--text-muted); flex-wrap:wrap; gap:12px; font-family:'JetBrains Mono',monospace;}
     .reveal{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease;}
     .reveal.in-view{opacity:1; transform:translateY(0);}
-
-    @media (prefers-reduced-motion: reduce){
-      .reveal{transition:none; opacity:1; transform:none;}
-      .hero-motes span{animation:none;}
-    }
-
-    @media (max-width:860px){
-      .nav-links{display:none;}
-      .burger{display:flex;}
-      .about-grid{grid-template-columns:1fr;}
-      .rules-grid{grid-template-columns:1fr;}
-      .apply-shell{grid-template-columns:1fr;}
-      .field-row{grid-template-columns:1fr;}
-      .hero{padding:90px 0 60px;}
-      section{padding:70px 0;}
-    }
+    @media (prefers-reduced-motion: reduce){.reveal{transition:none; opacity:1; transform:none;} .hero-motes span{animation:none;}}
+    @media (max-width:860px){.nav-links{display:none;} .burger{display:flex;} .about-grid{grid-template-columns:1fr;} .rules-grid{grid-template-columns:1fr;} .apply-shell{grid-template-columns:1fr;} .field-row{grid-template-columns:1fr;} .hero{padding:90px 0 60px;} section{padding:70px 0;}}
   </style>
 </head>
 <body>
@@ -453,7 +146,7 @@
 <header>
   <nav class="nav">
     <a href="#top" class="logo"><span class="logo-mark"></span>Смакоград</a>
-    <div class="nav-links">
+    <div class="nav-links" id="navLinks">
       <a href="#about">О сервере</a>
       <a href="#seasons">Сезоны</a>
       <a href="#rules">Правила</a>
@@ -468,7 +161,6 @@
 </header>
 
 <main id="top">
-
   <section class="hero">
     <div class="hero-motes" aria-hidden="true">
       <span style="left:8%; top:20%; animation-delay:0s;"></span>
@@ -504,36 +196,12 @@
         <p>Мы принципиально держим сервер ванильным — без плагинов, меняющих баланс игры, без доната ради силы. Всё, что у тебя есть — руки, голова и мир, который вы строите вместе.</p>
       </div>
       <div class="about-grid reveal">
-        <div class="about-card">
-          <div class="ic">🌾</div>
-          <h3>Чистое выживание</h3>
-          <p>Ни одной команды, дающей преимущество за деньги. Прогресс — только через игру.</p>
-        </div>
-        <div class="about-card">
-          <div class="ic">🏘️</div>
-          <h3>Живое сообщество</h3>
-          <p>Соседи, торговые лавки, совместные стройки. Смакоград — это город, а не просто сервер.</p>
-        </div>
-        <div class="about-card">
-          <div class="ic">🛡️</div>
-          <h3>Модерация без перегибов</h3>
-          <p>Античит и живые администраторы следят за честностью, не мешая играть.</p>
-        </div>
-        <div class="about-card">
-          <div class="ic">🎙️</div>
-          <h3>Войс чат</h3>
-          <p>Общайтесь голосом прямо в игре, чтобы координировать стройки и приключения.</p>
-        </div>
-        <div class="about-card">
-          <div class="ic">💬</div>
-          <h3>Discord-комьюнити</h3>
-          <p>Голосовые каналы для стройки вместе, барахолка, объявления о ивентах.</p>
-        </div>
-        <div class="about-card">
-          <div class="ic">⚙️</div>
-          <h3>Плагины на удобство</h3>
-          <p>Работают плагины для комфорта, не нарушающие ванильную атмосферу сервера.</p>
-        </div>
+        <div class="about-card"><div class="ic">🌾</div><h3>Чистое выживание</h3><p>Ни одной команды, дающей преимущество за деньги. Прогресс — только через игру.</p></div>
+        <div class="about-card"><div class="ic">🏘️</div><h3>Живое сообщество</h3><p>Соседи, торговые лавки, совместные стройки. Смакоград — это город, а не просто сервер.</p></div>
+        <div class="about-card"><div class="ic">🛡️</div><h3>Модерация без перегибов</h3><p>Античит и живые администраторы следят за честностью, не мешая играть.</p></div>
+        <div class="about-card"><div class="ic">🎙️</div><h3>Войс чат</h3><p>Общайтесь голосом прямо в игре, чтобы координировать стройки и приключения.</p></div>
+        <div class="about-card"><div class="ic">💬</div><h3>Discord-комьюнити</h3><p>Голосовые каналы для стройки вместе, барахолка, объявления о ивентах.</p></div>
+        <div class="about-card"><div class="ic">⚙️</div><h3>Плагины на удобство</h3><p>Работают плагины для комфорта, не нарушающие ванильную атмосферу сервера.</p></div>
       </div>
     </div>
   </section>
@@ -547,39 +215,12 @@
         <h2>Каждый сезон — новый вкус мира</h2>
         <p>Мир перегенерируется под каждый сезон и живёт своей историей.</p>
       </div>
-    </div>
-    <div class="wrap">
       <div class="menu-strip reveal">
-        <div class="season-card">
-          <span class="season-num mono">СЕЗОН I</span>
-          <h3>Первый вкус</h3>
-          <div class="season-dates mono">мар — июн 2024</div>
-          <span class="badge done">Завершён</span>
-        </div>
-        <div class="season-card">
-          <span class="season-num mono">СЕЗОН II</span>
-          <h3>Дикий мёд</h3>
-          <div class="season-dates mono">июл — окт 2024</div>
-          <span class="badge done">Завершён</span>
-        </div>
-        <div class="season-card">
-          <span class="season-num mono">СЕЗОН III</span>
-          <h3>Огненная специя</h3>
-          <div class="season-dates mono">ноя 2024 — фев 2025</div>
-          <span class="badge done">Завершён</span>
-        </div>
-        <div class="season-card">
-          <span class="season-num mono">СЕЗОН IV</span>
-          <h3>Морозная мята</h3>
-          <div class="season-dates mono">мар 2025 — н.в.</div>
-          <span class="badge live">Идёт сейчас</span>
-        </div>
-        <div class="season-card">
-          <span class="season-num mono">СЕЗОН V</span>
-          <h3>Летний цитрус</h3>
-          <div class="season-dates mono">ожидается</div>
-          <span class="badge soon">Скоро</span>
-        </div>
+        <div class="season-card"><span class="season-num mono">СЕЗОН I</span><h3>Первый вкус</h3><div class="season-dates mono">мар — июн 2024</div><span class="badge done">Завершён</span></div>
+        <div class="season-card"><span class="season-num mono">СЕЗОН II</span><h3>Дикий мёд</h3><div class="season-dates mono">июл — окт 2024</div><span class="badge done">Завершён</span></div>
+        <div class="season-card"><span class="season-num mono">СЕЗОН III</span><h3>Огненная специя</h3><div class="season-dates mono">ноя 2024 — фев 2025</div><span class="badge done">Завершён</span></div>
+        <div class="season-card"><span class="season-num mono">СЕЗОН IV</span><h3>Морозная мята</h3><div class="season-dates mono">мар 2025 — н.в.</div><span class="badge live">Идёт сейчас</span></div>
+        <div class="season-card"><span class="season-num mono">СЕЗОН V</span><h3>Летний цитрус</h3><div class="season-dates mono">ожидается</div><span class="badge soon">Скоро</span></div>
       </div>
     </div>
   </section>
@@ -594,30 +235,12 @@
         <p>Коротко — то, на чём держится сообщество. Полный список правил высылаем в Discord после одобрения заявки.</p>
       </div>
       <div class="rules-grid reveal">
-        <div class="rule-item">
-          <span class="n mono">01</span>
-          <div><h4>Никаких читов и x-ray</h4><p>Читы, дюпы и использование багов ведут к бану без предупреждений.</p></div>
-        </div>
-        <div class="rule-item">
-          <span class="n mono">02</span>
-          <div><h4>Не гриферь</h4><p>Разрушение чужих построек и краденый лут — под запретом на всей карте.</p></div>
-        </div>
-        <div class="rule-item">
-          <span class="n mono">03</span>
-          <div><h4>Уважай соседей</h4><p>Токсичность, травля и оскорбления в чате и голосе не допускаются.</p></div>
-        </div>
-        <div class="rule-item">
-          <span class="n mono">04</span>
-          <div><h4>Строй по правилам района</h4><p>В центре Смакограда действует единый архитектурный стиль — согласуй крупные постройки.</p></div>
-        </div>
-        <div class="rule-item">
-          <span class="n mono">05</span>
-          <div><h4>PvP — по согласию</h4><p>Вне арен и специальных зон бой начинается только если оба игрока не против.</p></div>
-        </div>
-        <div class="rule-item">
-          <span class="n mono">06</span>
-          <div><h4>Возраст 14+</h4><p>Для голосового общения в Discord нужен спокойный и адекватный тон.</p></div>
-        </div>
+        <div class="rule-item"><span class="n mono">01</span><div><h4>Никаких читов и x-ray</h4><p>Читы, дюпы и использование багов ведут к бану без предупреждений.</p></div></div>
+        <div class="rule-item"><span class="n mono">02</span><div><h4>Не гриферь</h4><p>Разрушение чужих построек и краденый лут — под запретом на всей карте.</p></div></div>
+        <div class="rule-item"><span class="n mono">03</span><div><h4>Уважай соседей</h4><p>Токсичность, травля и оскорбления в чате и голосе не допускаются.</p></div></div>
+        <div class="rule-item"><span class="n mono">04</span><div><h4>Строй по правилам района</h4><p>В центре Смакограда действует единый архитектурный стиль — согласуй крупные постройки.</p></div></div>
+        <div class="rule-item"><span class="n mono">05</span><div><h4>PvP — по согласию</h4><p>Вне арен и специальных зон бой начинается только если оба игрока не против.</p></div></div>
+        <div class="rule-item"><span class="n mono">06</span><div><h4>Возраст 14+</h4><p>Для голосового общения в Discord нужен спокойный и адекватный тон.</p></div></div>
       </div>
     </div>
   </section>
@@ -631,62 +254,22 @@
         <h2>Подать заявку на белый список</h2>
         <p>Заполни анкету — рассматриваем заявки вручную, обычно отвечаем в течение суток в Discord.</p>
       </div>
-
       <div class="apply-shell reveal">
         <div class="apply-side">
-          <div class="step">
-            <div class="dot mono">1</div>
-            <div><h4>Заполни анкету</h4><p>Расскажи о себе — это займёт пару минут.</p></div>
-          </div>
-          <div class="step">
-            <div class="dot mono">2</div>
-            <div><h4>Дождись ответа в Discord</h4><p>Модератор напишет тебе в личные сообщения.</p></div>
-          </div>
-          <div class="step">
-            <div class="dot mono">3</div>
-            <div><h4>Заходи и стройся</h4><p>После одобрения тебя добавят в whitelist.</p></div>
-          </div>
+          <div class="step"><div class="dot mono">1</div><div><h4>Заполни анкету</h4><p>Расскажи о себе — это займёт пару минут.</p></div></div>
+          <div class="step"><div class="dot mono">2</div><div><h4>Дождись ответа в Discord</h4><p>Модератор напишет тебе в личные сообщения.</p></div></div>
+          <div class="step"><div class="dot mono">3</div><div><h4>Заходи и стройся</h4><p>После одобрения тебя добавят в whitelist.</p></div></div>
         </div>
-
         <form class="apply-form" id="applyForm">
           <div class="form-msg" id="formMsg"></div>
-
           <div class="field-row">
-            <div class="field">
-              <label for="nick">Ник в игре</label>
-              <input type="text" id="nick" required placeholder="Steve_1998">
-            </div>
-            <div class="field">
-              <label for="age">Возраст</label>
-              <input type="number" id="age" min="14" max="99" required placeholder="16">
-            </div>
+            <div class="field"><label for="nick">Ник в игре</label><input type="text" id="nick" required placeholder="Steve_1998"></div>
+            <div class="field"><label for="age">Возраст</label><input type="number" id="age" min="14" max="99" required placeholder="16"></div>
           </div>
-
-          <div class="field">
-            <label for="discord">Discord-тег</label>
-            <input type="text" id="discord" required placeholder="username">
-          </div>
-
-          <div class="field">
-            <label for="exp">Опыт игры</label>
-            <select id="exp" required>
-              <option value="">Выбери вариант</option>
-              <option>Меньше года</option>
-              <option>1–3 года</option>
-              <option>3+ года</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="about">Почему хочешь к нам</label>
-            <textarea id="about" required placeholder="Пара слов о себе и о том, что планируешь строить"></textarea>
-          </div>
-
-          <label class="checkline">
-            <input type="checkbox" required>
-            Я ознакомился с правилами Смакограда и согласен их соблюдать
-          </label>
-
+          <div class="field"><label for="discord">Discord-тег</label><input type="text" id="discord" required placeholder="username"></div>
+          <div class="field"><label for="exp">Опыт игры</label><select id="exp" required><option value="">Выбери вариант</option><option>Меньше года</option><option>1–3 года</option><option>3+ года</option></select></div>
+          <div class="field"><label for="aboutme">Почему хочешь к нам</label><textarea id="aboutme" required placeholder="Пара слов о себе и о том, что планируешь строить"></textarea></div>
+          <label class="checkline"><input type="checkbox" required> Я ознакомился с правилами Смакограда и согласен их соблюдать</label>
           <button type="submit" class="btn btn-primary cut" style="width:100%;">Отправить заявку</button>
         </form>
       </div>
@@ -700,138 +283,136 @@
       <div class="section-head reveal">
         <div class="eyebrow"><span class="eyebrow-dot"></span>Вопросы</div>
         <h2>Часто спрашивают</h2>
-        <p>Не нашёл ответ — спроси в канале #вопросы в Discord, там отвечают и админы, и старожилы.</p>
+        <p>Не нашёл ответ — спроси в канале #вопросы в Discord.</p>
       </div>
-
       <div class="reveal" id="faqList">
-        <div class="faq-item">
-          <button class="faq-q">Что вообще значит «ванильный» сервер?<span class="plus">+</span></button>
-          <div class="faq-a"><p>Это сервер без модов и без плагинов, которые меняют механики игры. Ты играешь в тот же Minecraft, что и в одиночной игре — просто с соседями.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Какая версия Minecraft на сервере?<span class="plus">+</span></button>
-          <div class="faq-a"><p>Сейчас сервер работает на версии 1.21. При выходе новых версий обновляем игру между сезонами.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Есть донат? Он даёт преимущество в игре?<span class="plus">+</span></button>
-          <div class="faq-a"><p>Донат есть, но только косметический — цветной ник, рамка в чате. На выживание и экономику он не влияет.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Что происходит с миром после окончания сезона?<span class="plus">+</span></button>
-          <div class="faq-a"><p>Старый мир архивируется и остаётся доступен как музей построек, а игра продолжается в новом мире.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Можно подать заявку вместе с друзьями?<span class="plus">+</span></button>
-          <div class="faq-a"><p>Да, каждый заполняет анкету отдельно, но можно упомянуть ники друзей в поле «Почему хочешь к нам».</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Что делать, если меня незаслуженно забанили?<span class="plus">+</span></button>
-          <div class="faq-a"><p>Пиши в канал #апелляции в Discord с ником и примерной датой бана — разбираем каждый случай.</p></div>
-        </div>
+        <div class="faq-item"><button class="faq-q">Что значит «ванильный» сервер?<span class="plus">+</span></button><div class="faq-a"><p>Сервер без модов и плагинов, меняющих механики игры. Чистый Minecraft с соседями.</p></div></div>
+        <div class="faq-item"><button class="faq-q">Какая версия Minecraft?<span class="plus">+</span></button><div class="faq-a"><p>Версия 1.21. Обновляем между сезонами.</p></div></div>
+        <div class="faq-item"><button class="faq-q">Есть донат?<span class="plus">+</span></button><div class="faq-a"><p>Только косметический, не влияет на выживание.</p></div></div>
+        <div class="faq-item"><button class="faq-q">Что с миром после сезона?<span class="plus">+</span></button><div class="faq-a"><p>Архивируется как музей, игра продолжается в новом мире.</p></div></div>
+        <div class="faq-item"><button class="faq-q">Можно с друзьями?<span class="plus">+</span></button><div class="faq-a"><p>Да, укажите ники друг друга в заявке.</p></div></div>
+        <div class="faq-item"><button class="faq-q">Незаслуженный бан?<span class="plus">+</span></button><div class="faq-a"><p>Пиши в #апелляции в Discord.</p></div></div>
       </div>
     </div>
   </section>
-
 </main>
 
 <footer>
   <div class="wrap">
     <div class="footer-top">
-      <div class="footer-brand">
-        <a href="#top" class="logo"><span class="logo-mark"></span>Смакоград</a>
-        <p>Ванильный сервер Minecraft для тех, кто соскучился по честному выживанию.</p>
-      </div>
+      <div class="footer-brand"><a href="#top" class="logo"><span class="logo-mark"></span>Смакоград</a><p>Ванильный сервер Minecraft для тех, кто соскучился по честному выживанию.</p></div>
       <div class="footer-links">
-        <div class="footer-col">
-          <h5>Сервер</h5>
-          <a href="#about">О сервере</a>
-          <a href="#seasons">Сезоны</a>
-          <a href="#rules">Правила</a>
-        </div>
-        <div class="footer-col">
-          <h5>Сообщество</h5>
-          <a href="#">Discord</a>
-          <a href="#">Telegram-канал</a>
-        </div>
-        <div class="footer-col">
-          <h5>Помощь</h5>
-          <a href="#apply">Подать заявку</a>
-          <a href="#faq">Вопросы</a>
-        </div>
+        <div class="footer-col"><h5>Сервер</h5><a href="#about">О сервере</a><a href="#seasons">Сезоны</a><a href="#rules">Правила</a></div>
+        <div class="footer-col"><h5>Сообщество</h5><a href="#">Discord</a><a href="#">Telegram-канал</a></div>
+        <div class="footer-col"><h5>Помощь</h5><a href="#apply">Подать заявку</a><a href="#faq">Вопросы</a></div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <span>© 2026 Смакоград</span>
-      <span>smakograd.aternos.me</span>
-    </div>
+    <div class="footer-bottom"><span>© 2026 Смакоград</span><span>smakograd.aternos.me</span></div>
   </div>
 </footer>
 
 <script>
-  // ===== НАСТРОЙКИ TELEGRAM =====
-  const BOT_TOKEN = '8730512590:AAGvxpw3sdy12tosCe0YxluNvJ1tzoulxbc';   // ← Замени на токен из BotFather
-  const CHAT_ID = '1577879693';         // ← Замени на свой Chat ID
+  // ===== ТВОИ ДАННЫЕ TELEGRAM =====
+  var BOT_TOKEN = '8730512590:AAGvxpw3sdy12tosCe0YxluNvJ1tzoulxbc';
+  var CHAT_ID = '1577879693';
 
-// ===== ОТПРАВКА ЗАЯВКИ =====
+  // ===== КОПИРОВАНИЕ IP =====
+  document.getElementById('copyBtn').addEventListener('click', function(){
+    var text = document.getElementById('ipText').textContent;
+    navigator.clipboard.writeText(text).then(function(){
+      this.textContent = 'Скопировано';
+      setTimeout(function(){ document.getElementById('copyBtn').textContent = 'Копировать'; }, 1800);
+    }.bind(this)).catch(function(){
+      this.textContent = 'Не вышло';
+      setTimeout(function(){ document.getElementById('copyBtn').textContent = 'Копировать'; }, 1800);
+    }.bind(this));
+  });
+
+  // ===== МОБИЛЬНОЕ МЕНЮ =====
+  document.getElementById('burger').addEventListener('click', function(){
+    var nav = document.getElementById('navLinks');
+    if(nav.style.display === 'flex'){
+      nav.style.display = 'none';
+    } else {
+      nav.style.cssText = 'display:flex; position:absolute; top:64px; left:0; right:0; flex-direction:column; background:#182620; padding:20px 32px; gap:18px; border-bottom:1px solid rgba(243,217,164,0.14); z-index:99;';
+    }
+  });
+
+  // ===== FAQ =====
+  document.querySelectorAll('.faq-item').forEach(function(item){
+    item.querySelector('.faq-q').addEventListener('click', function(){
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(function(i){
+        i.classList.remove('open');
+        i.querySelector('.faq-a').style.maxHeight = null;
+      });
+      if(!isOpen){
+        item.classList.add('open');
+        item.querySelector('.faq-a').style.maxHeight = item.querySelector('.faq-a').scrollHeight + 'px';
+      }
+    });
+  });
+
+  // ===== АНИМАЦИИ =====
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(function(el){ observer.observe(el); });
+
+  // ===== ОТПРАВКА ЗАЯВКИ В TELEGRAM =====
   document.getElementById('applyForm').addEventListener('submit', function(e){
     e.preventDefault();
 
-    // Получаем значения
-    const nick = document.getElementById('nick');
-    const age = document.getElementById('age');
-    const discord = document.getElementById('discord');
-    const exp = document.getElementById('exp');
-    const about = document.getElementById('about');
-    const msgEl = document.getElementById('formMsg');
+    var nickEl = document.getElementById('nick');
+    var ageEl = document.getElementById('age');
+    var discordEl = document.getElementById('discord');
+    var expEl = document.getElementById('exp');
+    var aboutEl = document.getElementById('aboutme');
+    var msgEl = document.getElementById('formMsg');
 
-    // Проверяем что все поля найдены
-    if (!nick || !age || !discord || !exp || !about) {
-      msgEl.textContent = 'Ошибка: не все поля формы найдены.';
+    if(!nickEl || !ageEl || !discordEl || !expEl || !aboutEl){
+      msgEl.textContent = 'Ошибка: поля формы не найдены.';
       msgEl.className = 'form-msg show';
       return;
     }
 
-    // Показываем отправку
     msgEl.textContent = 'Отправляю заявку...';
     msgEl.className = 'form-msg show';
 
-    // Формируем сообщение
-    const message = '📩 Новая заявка!\n\n' +
-      '👤 Ник: ' + nick.value + '\n' +
-      '🎂 Возраст: ' + age.value + '\n' +
-      '💬 Discord: ' + discord.value + '\n' +
-      '⏳ Опыт: ' + exp.value + '\n' +
-      '📝 О себе: ' + about.value;
+    var message = '📩 Новая заявка!\n\n' +
+      '👤 Ник: ' + nickEl.value + '\n' +
+      '🎂 Возраст: ' + ageEl.value + '\n' +
+      '💬 Discord: ' + discordEl.value + '\n' +
+      '⏳ Опыт: ' + expEl.value + '\n' +
+      '📝 О себе: ' + aboutEl.value;
 
-    // Отправляем в Telegram
     fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: CHAT_ID,
-        text: message
-      })
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({chat_id: CHAT_ID, text: message})
     })
-    .then(function(response) { return response.json(); })
-    .then(function(data) {
+    .then(function(res){ return res.json(); })
+    .then(function(data){
       if(data.ok){
         msgEl.textContent = '✅ Заявка отправлена! Жди ответа в Discord.';
         msgEl.className = 'form-msg show';
         document.getElementById('applyForm').reset();
       } else {
-        console.log('Ошибка Telegram:', data);
-        msgEl.textContent = '❌ Ошибка: ' + (data.description || 'неизвестная ошибка');
+        msgEl.textContent = '❌ Ошибка Telegram: ' + (data.description || 'неизвестно');
         msgEl.className = 'form-msg show';
       }
     })
-    .catch(function(error) {
-      console.log('Ошибка:', error);
+    .catch(function(err){
       msgEl.textContent = '❌ Не удалось отправить. Проверь интернет.';
       msgEl.className = 'form-msg show';
     });
   });
 </script>
-
 
 </body>
 </html>
