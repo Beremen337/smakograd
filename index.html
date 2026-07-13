@@ -127,6 +127,50 @@
     .btn-ghost:hover{border-color:var(--vanilla-dim); color:var(--vanilla);}
     .btn-sm{padding:9px 16px; font-size:13px;}
 
+    /* Кнопка "Мне скучно" */
+    .bored-btn {
+      background: linear-gradient(135deg, #7fae72, #5c8a52);
+      color: #fff;
+      font-size: 18px;
+      padding: 18px 36px;
+      margin-top: 32px;
+      animation: pulse 2s infinite;
+      position: relative;
+      overflow: hidden;
+    }
+    .bored-btn:hover {
+      animation: none;
+      transform: scale(1.05);
+      filter: brightness(1.2);
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(127,174,114,0.4); }
+      50% { box-shadow: 0 0 0 20px rgba(127,174,114,0); }
+    }
+    .bored-result {
+      margin-top: 24px;
+      padding: 24px;
+      background: var(--bg-panel);
+      border: 1px solid var(--moss);
+      font-size: 18px;
+      color: var(--vanilla);
+      text-align: center;
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+    .bored-result.show {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .bored-emoji {
+      font-size: 48px;
+      display: block;
+      margin-bottom: 12px;
+    }
+
     .hero{
       position:relative;
       padding:120px 0 90px;
@@ -428,7 +472,7 @@
       font-family:'JetBrains Mono',monospace;
     }
 
-    /* Стили для модального окна */
+    /* Модальные окна */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -454,6 +498,8 @@
       width: 100%;
       position: relative;
       text-align: center;
+      max-height: 90vh;
+      overflow-y: auto;
     }
     .modal-close {
       position: absolute;
@@ -466,6 +512,7 @@
       cursor: pointer;
       font-family: 'JetBrains Mono', monospace;
       transition: color 0.2s;
+      z-index: 10;
     }
     .modal-close:hover {
       color: var(--amber);
@@ -485,12 +532,56 @@
       opacity: 0.6;
     }
 
+    /* Чат поддержки */
+    .support-chat {
+      background: var(--bg-deep);
+      border: 1px solid var(--line);
+      padding: 20px;
+      text-align: left;
+      max-height: 400px;
+      overflow-y: auto;
+      margin-top: 20px;
+    }
+    .chat-message {
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .chat-message.user {
+      background: rgba(226,150,63,0.15);
+      border-left: 3px solid var(--amber);
+    }
+    .chat-message.admin {
+      background: rgba(127,174,114,0.15);
+      border-left: 3px solid var(--moss);
+    }
+    .chat-input-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .chat-input-row input {
+      flex: 1;
+      background: var(--bg-deep);
+      border: 1px solid var(--line);
+      color: var(--text-light);
+      padding: 12px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+    }
+    .chat-input-row input:focus {
+      outline: none;
+      border-color: var(--amber);
+    }
+
     .reveal{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease;}
     .reveal.in-view{opacity:1; transform:translateY(0);}
 
     @media (prefers-reduced-motion: reduce){
       .reveal{transition:none; opacity:1; transform:none;}
       .hero-motes span{animation:none;}
+      .bored-btn{animation:none;}
     }
 
     @media (max-width:860px){
@@ -509,6 +600,11 @@
   </style>
 </head>
 <body>
+
+<!-- Скрытые аудио-элементы для звуков -->
+<audio id="clickSound" preload="auto">
+  <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=" type="audio/wav">
+</audio>
 
 <header>
   <nav class="nav">
@@ -573,6 +669,17 @@
         <div class="about-card"><div class="ic">💬</div><h3>Хорошее комьюнити</h3><p>Уютное общение, взаимопомощь, барахолка и объявления о ивентах.</p></div>
         <div class="about-card"><div class="ic">⚙️</div><h3>Плагины на удобство</h3><p>Работают плагины для комфорта, не нарушающие ванильную атмосферу сервера.</p></div>
       </div>
+      
+      <!-- Кнопка "Мне скучно" -->
+      <div style="text-align: center; margin-top: 48px;" class="reveal">
+        <button class="btn cut bored-btn" onclick="getRandomTask()" id="boredBtn">
+          🎲 Мне скучно!
+        </button>
+        <div class="bored-result cut" id="boredResult">
+          <span class="bored-emoji" id="boredEmoji"></span>
+          <span id="boredText"></span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -588,32 +695,20 @@
       </div>
       <div class="menu-strip reveal">
         <div class="season-card">
-          <span class="season-num mono">СЕЗОН I</span>
-          <h3>#1</h3>
-          <div class="season-dates mono">завершён</div>
-          <span class="badge done">Завершён</span>
-          <button class="btn btn-ghost btn-sm" style="margin-top: auto; width: 100%;" onclick="openScreenshots(1)">Скриншоты</button>
+          <span class="season-num mono">СЕЗОН I</span><h3>#1</h3><div class="season-dates mono">завершён</div><span class="badge done">Завершён</span>
+          <button class="btn btn-ghost btn-sm" style="margin-top: auto; width: 100%;" onclick="playClick(); openScreenshots(1)">Скриншоты</button>
         </div>
         <div class="season-card">
-          <span class="season-num mono">СЕЗОН II</span>
-          <h3>#2</h3>
-          <div class="season-dates mono">завершён</div>
-          <span class="badge done">Завершён</span>
-          <button class="btn btn-ghost btn-sm" style="margin-top: auto; width: 100%;" onclick="openScreenshots(2)">Скриншоты</button>
+          <span class="season-num mono">СЕЗОН II</span><h3>#2</h3><div class="season-dates mono">завершён</div><span class="badge done">Завершён</span>
+          <button class="btn btn-ghost btn-sm" style="margin-top: auto; width: 100%;" onclick="playClick(); openScreenshots(2)">Скриншоты</button>
         </div>
         <div class="season-card">
-          <span class="season-num mono">СЕЗОН III</span>
-          <h3>#3</h3>
-          <div class="season-dates mono">в процессе</div>
-          <span class="badge live">Идёт сейчас</span>
-          <button class="btn btn-ghost btn-sm" style="margin-top: auto; width: 100%;" onclick="openScreenshots(3)">Скриншоты</button>
+          <span class="season-num mono">СЕЗОН III</span><h3>#3</h3><div class="season-dates mono">в процессе</div><span class="badge live">Идёт сейчас</span>
+          <button class="btn btn-ghost btn-sm" style="margin-top: auto; width: 100%;" onclick="playClick(); openScreenshots(3)">Скриншоты</button>
         </div>
         <div class="season-card">
-          <span class="season-num mono">СЕЗОН IV</span>
-          <h3>#4</h3>
-          <div class="season-dates mono">скоро</div>
-          <span class="badge soon">Скоро</span>
-          <button class="btn btn-ghost btn-sm" style="margin-top: auto; width: 100%;" onclick="openScreenshots(4)">Скриншоты</button>
+          <span class="season-num mono">СЕЗОН IV</span><h3>#4</h3><div class="season-dates mono">скоро</div><span class="badge soon">Скоро</span>
+          <button class="btn btn-ghost btn-sm" style="margin-top: auto; width: 100%;" onclick="playClick(); openScreenshots(4)">Скриншоты</button>
         </div>
       </div>
     </div>
@@ -669,6 +764,11 @@
           <button type="submit" class="btn btn-primary cut" style="width:100%;">Отправить заявку</button>
         </form>
       </div>
+      
+      <!-- Кнопка поддержки -->
+      <div style="text-align: center; margin-top: 40px;" class="reveal">
+        <button class="btn btn-ghost cut" onclick="playClick(); openSupport()">💬 Нужна помощь? Напиши нам!</button>
+      </div>
     </div>
   </section>
 
@@ -722,13 +822,243 @@
   </div>
 </div>
 
+<!-- Модальное окно поддержки -->
+<div class="modal-overlay" id="supportModal">
+  <div class="modal-content cut">
+    <button class="modal-close" onclick="closeSupport()">✕</button>
+    <h2 style="margin-bottom: 24px; color: var(--vanilla);">💬 Поддержка</h2>
+    <p style="color: var(--text-muted); margin-bottom: 20px;">Напишите ваш вопрос — администратор ответит вам в ближайшее время.</p>
+    <div class="support-chat" id="supportChat">
+      <div class="chat-message admin">
+        👋 Привет! Я администратор Смакограда. Чем могу помочь?
+      </div>
+    </div>
+    <div class="chat-input-row">
+      <input type="text" id="supportInput" placeholder="Введите сообщение..." onkeypress="if(event.key==='Enter')sendSupportMessage()">
+      <button class="btn btn-primary cut-sm" onclick="playClick(); sendSupportMessage()">Отправить</button>
+    </div>
+  </div>
+</div>
+
 <script>
   // ===== НАСТРОЙКИ TELEGRAM =====
-  var BOT_TOKEN = 'ТВОЙ_ТОКЕН_БОТА';   // ← ЗАМЕНИ
-  var CHAT_ID = 'ТВОЙ_CHAT_ID';         // ← ЗАМЕНИ
+  var BOT_TOKEN = '8730512590:AAGvxpw3sdy12tosCe0YxluNvJ1tzoulxbc';   // ← ЗАМЕНИ
+  var CHAT_ID = '1577879693';         // ← ЗАМЕНИ
+
+  // ===== ЗВУК КЛИКА =====
+  function playClick() {
+    try {
+      var ctx = new (window.AudioContext || window.webkitAudioContext)();
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.frequency.setValueAtTime(800, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.1);
+      gain.gain.setValueAtTime(0.1, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.1);
+    } catch(e) {}
+  }
+
+  // Добавляем звук на все кнопки
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        if(!e.target.closest('#supportModal') && !e.target.closest('#applyForm')) {
+          playClick();
+        }
+      });
+    });
+  });
+
+  // ===== 150+ ЗАДАНИЙ "МНЕ СКУЧНО" =====
+  var tasks = [
+    {text: "Построй гигантскую статую курицы на спавне", emoji: "🐔"},
+    {text: "Организуй гонки на лодках с друзьями", emoji: "🚤"},
+    {text: "Создай подземный лабиринт с ловушками", emoji: "🏚️"},
+    {text: "Устрой ярмарку и торгуй с жителями", emoji: "🏪"},
+    {text: "Построй маяк до небес из разноцветного стекла", emoji: "🌈"},
+    {text: "Найди розовую овцу и приведи её на спавн", emoji: "🐑"},
+    {text: "Сделай огромную картину из цветной шерсти", emoji: "🎨"},
+    {text: "Устрой PvP-турнир на кулаках без брони", emoji: "🥊"},
+    {text: "Построй аквапарк с горками изо льда", emoji: "🎢"},
+    {text: "Создай музей редких предметов", emoji: "🏛️"},
+    {text: "Приручи стаю волков и дай им имена", emoji: "🐺"},
+    {text: "Построй пиксель-арт своего скина", emoji: "🖼️"},
+    {text: "Организуй конкурс на лучший дом из булыжника", emoji: "🏠"},
+    {text: "Сделай фейерверк-шоу с друзьями", emoji: "🎆"},
+    {text: "Построй подводную базу из стекла", emoji: "🐠"},
+    {text: "Найди древний город в тёмных глубинах", emoji: "🏛️"},
+    {text: "Создай автоматическую ферму кактусов", emoji: "🌵"},
+    {text: "Устрой охоту на странствующего торговца", emoji: "🎯"},
+    {text: "Построй огромные шахматы на земле", emoji: "♟️"},
+    {text: "Сделай зельеварню-автомат", emoji: "⚗️"},
+    {text: "Придумай и построй свой флаг района", emoji: "🚩"},
+    {text: "Организуй парад домашних животных", emoji: "🐱"},
+    {text: "Построй американские горки из рельс", emoji: "🎢"},
+    {text: "Создай тайную комнату за картиной", emoji: "🖼️"},
+    {text: "Устрой квест по поиску сундуков для новичков", emoji: "🎁"},
+    {text: "Построй храм в японском стиле", emoji: "🏯"},
+    {text: "Сделай банк с обменом валюты (алмазы/изумруды)", emoji: "🏦"},
+    {text: "Устрой рыболовный турнир", emoji: "🎣"},
+    {text: "Построй космический корабль в небе", emoji: "🚀"},
+    {text: "Создай библиотеку с зачарованными книгами", emoji: "📚"},
+    {text: "Приготовь все виды еды в игре", emoji: "🍰"},
+    {text: "Устрой бой снежками на арене", emoji: "❄️"},
+    {text: "Построй мост через всё море", emoji: "🌉"},
+    {text: "Сделай парк развлечений с мини-играми", emoji: "🎡"},
+    {text: "Найди и засели деревню жителей", emoji: "🏘️"},
+    {text: "Построй маяк на горе", emoji: "⛯"},
+    {text: "Организуй театр и поставь сценку", emoji: "🎭"},
+    {text: "Создай лавовую ферму для топлива", emoji: "🔥"},
+    {text: "Построй огромный компас на земле", emoji: "🧭"},
+    {text: "Устрой забег по крышам домов", emoji: "🏃"},
+    {text: "Сделай зоопарк со всеми животными", emoji: "🦁"},
+    {text: "Построй копию своего реального дома", emoji: "🏡"},
+    {text: "Создай подземный город дварфов", emoji: "⛏️"},
+    {text: "Устрой конкурс на лучший скин", emoji: "👗"},
+    {text: "Построй водопад из лавы в аду", emoji: "🌋"},
+    {text: "Сделай почтовую систему с почтовыми голубями", emoji: "📬"},
+    {text: "Найди все биомы на карте", emoji: "🗺️"},
+    {text: "Построй обсерваторию на высокой горе", emoji: "🔭"},
+    {text: "Создай арену для битвы с боссами", emoji: "⚔️"},
+    {text: "Устрой праздник с тортами для всех", emoji: "🎂"},
+    {text: "Построй ветряную мельницу", emoji: "🌾"},
+    {text: "Сделай систему порталов между базами", emoji: "🌀"},
+    {text: "Организуй кладбище для умерших питомцев", emoji: "🪦"},
+    {text: "Построй пиратский корабль в океане", emoji: "🏴‍☠️"},
+    {text: "Создай галерею лучших построек сервера", emoji: "🖼️"},
+    {text: "Устрой битву на трезубцах", emoji: "🔱"},
+    {text: "Построй гигантский гриб-дом", emoji: "🍄"},
+    {text: "Сделай ловушку для гриферов", emoji: "🪤"},
+    {text: "Найди все виды руд в одном походе", emoji: "💎"},
+    {text: "Построй стадион для соревнований", emoji: "🏟️"},
+    {text: "Создай секретный клуб с паролем", emoji: "🤫"},
+    {text: "Устрой ночной забег с фонариками", emoji: "🏮"},
+    {text: "Построй воздушный шар из шерсти", emoji: "🎈"},
+    {text: "Сделай сортировщик предметов", emoji: "📦"},
+    {text: "Организуй аукцион редких предметов", emoji: "🔨"},
+    {text: "Построй подземную железную дорогу", emoji: "🚂"},
+    {text: "Создай огромные солнечные часы", emoji: "🕐"},
+    {text: "Устрой квест «Найди админа»", emoji: "🕵️"},
+    {text: "Построй фонтан желаний", emoji: "⛲"},
+    {text: "Сделай магазин зелий", emoji: "🧪"},
+    {text: "Организуй фотовыставку скриншотов", emoji: "📸"},
+    {text: "Построй ледяной дворец", emoji: "❄️"},
+    {text: "Создай лабиринт из живой изгороди", emoji: "🌳"},
+    {text: "Устрой чемпионат по стрельбе из лука", emoji: "🏹"},
+    {text: "Построй храм четырёх стихий", emoji: "🌊"},
+    {text: "Сделай парковку для лошадей", emoji: "🐴"},
+    {text: "Найди и оседлай страйдера в аду", emoji: "🔥"},
+    {text: "Построй башню до высоты 255", emoji: "🗼"},
+    {text: "Создай цветочный сад со всеми видами", emoji: "🌺"},
+    {text: "Устрой голосование за лучшее здание", emoji: "🗳️"},
+    {text: "Построй казино с мини-играми", emoji: "🎰"},
+    {text: "Сделай кафетерий с раздачей еды", emoji: "☕"},
+    {text: "Организуй спасательную операцию (вытащи друга из лавы)", emoji: "🛟"},
+    {text: "Построй аэропорт для элитр", emoji: "✈️"},
+    {text: "Создай гигантскую карту мира на стене", emoji: "🗺️"},
+    {text: "Устрой бой на подушках (слизнях)", emoji: "🛏️"},
+    {text: "Построй замок на воде", emoji: "🏰"},
+    {text: "Сделай мастерскую по ремонту вещей", emoji: "🔧"},
+    {text: "Найди все пластинки для музыкального блока", emoji: "🎵"},
+    {text: "Построй огромный аквариум", emoji: "🐟"},
+    {text: "Создай полосу препятствий", emoji: "🏋️"},
+    {text: "Устрой праздник Хэллоуин с тыквами", emoji: "🎃"},
+    {text: "Построй Ноев ковчег с животными", emoji: "🚢"},
+    {text: "Сделай таймер обратного отсчёта из редстоуна", emoji: "⏱️"},
+    {text: "Организуй шахматный турнир", emoji: "♟️"},
+    {text: "Построй ветку метро в соседний биом", emoji: "🚇"},
+    {text: "Создай огромный костёр для вечеринок", emoji: "🔥"},
+    {text: "Устрой конкурс на лучшую шутку в чате", emoji: "😂"},
+    {text: "Построй обзорную площадку на облаках", emoji: "☁️"},
+    {text: "Сделай генератор булыжника", emoji: "🪨"},
+    {text: "Найди все виды деревьев и посади их рядом", emoji: "🌲"},
+    {text: "Построй ледяную трассу для скоростных гонок", emoji: "🛷"},
+    {text: "Создай почтовый ящик для жалоб и предложений", emoji: "📮"},
+    {text: "Устрой день дарения подарков", emoji: "🎁"},
+    {text: "Построй больницу для лечения жителей", emoji: "🏥"},
+    {text: "Сделай гигантскую печь-автомат", emoji: "♨️"},
+    {text: "Организуй фестиваль красок (цветные блоки)", emoji: "🎨"},
+    {text: "Построй ресторан с обслуживанием", emoji: "🍽️"},
+    {text: "Создай убежище от фантомов", emoji: "👻"},
+    {text: "Устрой соревнование по копанию туннеля", emoji: "⛏️"},
+    {text: "Построй кукольный театр", emoji: "🎪"},
+    {text: "Сделай систему оповещения о гостях", emoji: "🔔"},
+    {text: "Найди и приручи попугая", emoji: "🦜"},
+    {text: "Построй статую дракона Края", emoji: "🐉"},
+    {text: "Создай парк динозавров (огромные статуи)", emoji: "🦕"},
+    {text: "Устрой битву с Визером группой", emoji: "💀"},
+    {text: "Построй тюрьму для нарушителей (шутка)", emoji: "🔒"},
+    {text: "Сделай сауну в бане", emoji: "🧖"},
+    {text: "Организуй экскурсию по серверу для новичков", emoji: "🧭"},
+    {text: "Построй гигантский кристалл Края", emoji: "💎"},
+    {text: "Создай мини-игру «Сбей соседа стрелой»", emoji: "🎯"},
+    {text: "Устрой новогоднюю ёлку с подарками под ней", emoji: "🎄"},
+    {text: "Построй кузницу для починки вещей", emoji: "⚒️"},
+    {text: "Сделай автоматическую пасеку", emoji: "🐝"},
+    {text: "Найди все сокровища затонувших кораблей", emoji: "⚓"},
+    {text: "Построй огромный тотем бессмертия", emoji: "🗿"},
+    {text: "Создай гильдию строителей", emoji: "👷"},
+    {text: "Устрой конкурс «Кто дольше простоит на кактусе»", emoji: "🌵"},
+    {text: "Построй купол над городом", emoji: "🔮"},
+    {text: "Сделай мусорку для ненужных вещей", emoji: "🗑️"},
+    {text: "Организуй вечеринку с музыкой из блоков", emoji: "🎹"},
+    {text: "Построй радугу из цветной шерсти через всё небо", emoji: "🌈"},
+    {text: "Создай календарь событий сервера", emoji: "📅"},
+    {text: "Устрой день без правил (PvP везде, с согласия)", emoji: "⚡"},
+    {text: "Построй огромную книгу с историей сервера", emoji: "📖"},
+    {text: "Сделай комнату смеха (кривые постройки)", emoji: "🤪"},
+    {text: "Найди самое красивое место на карте и поставь там скамейку", emoji: "🏞️"},
+    {text: "Построй мост из радуги между двумя горами", emoji: "🌉"},
+    {text: "Создай музей багов и ошибок сервера", emoji: "🐛"},
+    {text: "Устрой церемонию награждения лучших игроков", emoji: "🏆"},
+    {text: "Построй гигантскую печеньку на спавне", emoji: "🍪"},
+    {text: "Сделай каток изо льда", emoji: "⛸️"},
+    {text: "Организуй команду спасателей (помощь новичкам)", emoji: "🦸"},
+    {text: "Построй огромный цветок", emoji: "🌻"},
+    {text: "Создай тайное общество с ритуалами", emoji: "🔮"},
+    {text: "Устрой квест «Принеси админу печеньку»", emoji: "🍪"},
+    {text: "Построй подземный храм", emoji: "⛪"},
+    {text: "Сделай бесконечный источник воды", emoji: "💧"},
+    {text: "Найди аметистовую жеоду и сделай там базу", emoji: "💜"},
+    {text: "Построй смотровую площадку в Краю", emoji: "🌌"},
+    {text: "Создай смешную табличку с правилами", emoji: "📝"},
+    {text: "Устрой парад с факелами", emoji: "🔥"},
+    {text: "Построй гигантский сундук-хранилище", emoji: "📦"},
+    {text: "Сделай железного голема-охранника", emoji: "🤖"},
+    {text: "Организуй ночь страшных историй у костра", emoji: "🏕️"},
+    {text: "Построй цепной мост через ущелье", emoji: "⛓️"},
+    {text: "Создай подводный туннель между базами", emoji: "🌊"},
+    {text: "Устрой конкурс «Кто дальше прыгнет на лошади»", emoji: "🐎"},
+    {text: "Построй огромный компас, указывающий на спавн", emoji: "🧭"},
+  ];
+
+  function getRandomTask() {
+    playClick();
+    var task = tasks[Math.floor(Math.random() * tasks.length)];
+    var resultDiv = document.getElementById('boredResult');
+    var emojiEl = document.getElementById('boredEmoji');
+    var textEl = document.getElementById('boredText');
+    
+    emojiEl.textContent = task.emoji;
+    textEl.textContent = task.text;
+    resultDiv.classList.add('show');
+    
+    // Анимация появления
+    resultDiv.style.animation = 'none';
+    resultDiv.offsetHeight;
+    resultDiv.style.animation = 'fadeIn 0.5s ease';
+    
+    // Прокрутить к результату
+    resultDiv.scrollIntoView({behavior: 'smooth', block: 'center'});
+  }
 
   // ===== КОПИРОВАНИЕ IP =====
   document.getElementById('copyBtn').addEventListener('click', function(){
+    playClick();
     var text = document.getElementById('ipText').textContent;
     navigator.clipboard.writeText(text).then(function(){
       this.textContent = 'Скопировано';
@@ -752,6 +1082,7 @@
   // ===== FAQ =====
   document.querySelectorAll('.faq-item').forEach(function(item){
     item.querySelector('.faq-q').addEventListener('click', function(){
+      playClick();
       var isOpen = item.classList.contains('open');
       document.querySelectorAll('.faq-item').forEach(function(i){
         i.classList.remove('open');
@@ -778,6 +1109,7 @@
   // ===== ОТПРАВКА ЗАЯВКИ В TELEGRAM =====
   document.getElementById('applyForm').addEventListener('submit', function(e){
     e.preventDefault();
+    playClick();
     var nickEl = document.getElementById('nick');
     var ageEl = document.getElementById('age');
     var contactEl = document.getElementById('contact');
@@ -823,7 +1155,7 @@
     });
   });
 
-  // ===== МОДАЛЬНОЕ ОКНО ДЛЯ СКРИНШОТОВ =====
+  // ===== МОДАЛЬНОЕ ОКНО СКРИНШОТОВ =====
   function openScreenshots(seasonNumber) {
     var modal = document.getElementById('screenshotModal');
     var title = document.getElementById('modalTitle');
@@ -831,24 +1163,75 @@
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
-
   function closeScreenshots() {
-    var modal = document.getElementById('screenshotModal');
-    modal.classList.remove('active');
+    document.getElementById('screenshotModal').classList.remove('active');
     document.body.style.overflow = '';
   }
-
-  // Закрытие по клику на оверлей
   document.getElementById('screenshotModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-      closeScreenshots();
-    }
+    if (e.target === this) closeScreenshots();
   });
 
-  // Закрытие по клавише Escape
+  // ===== МОДАЛЬНОЕ ОКНО ПОДДЕРЖКИ =====
+  function openSupport() {
+    document.getElementById('supportModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSupport() {
+    document.getElementById('supportModal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('supportModal').addEventListener('click', function(e) {
+    if (e.target === this) closeSupport();
+  });
+
+  function sendSupportMessage() {
+    var input = document.getElementById('supportInput');
+    var message = input.value.trim();
+    if(!message) return;
+    
+    var chat = document.getElementById('supportChat');
+    
+    // Добавляем сообщение пользователя
+    var userMsg = document.createElement('div');
+    userMsg.className = 'chat-message user';
+    userMsg.textContent = 'Вы: ' + message;
+    chat.appendChild(userMsg);
+    
+    // Отправляем в Telegram
+    var tgMessage = '💬 Сообщение в поддержку:\n\n' + message;
+    fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({chat_id: CHAT_ID, text: tgMessage})
+    }).then(function(res){ return res.json(); })
+    .then(function(data){
+      if(data.ok){
+        var adminMsg = document.createElement('div');
+        adminMsg.className = 'chat-message admin';
+        adminMsg.textContent = '✅ Админ: Сообщение получено! Я отвечу вам в ближайшее время.';
+        chat.appendChild(adminMsg);
+      } else {
+        var errMsg = document.createElement('div');
+        errMsg.className = 'chat-message admin';
+        errMsg.textContent = '❌ Не удалось отправить сообщение. Попробуйте позже.';
+        chat.appendChild(errMsg);
+      }
+    }).catch(function(){
+      var errMsg = document.createElement('div');
+      errMsg.className = 'chat-message admin';
+      errMsg.textContent = '❌ Ошибка соединения. Попробуйте позже.';
+      chat.appendChild(errMsg);
+    });
+    
+    input.value = '';
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  // Закрытие по Escape
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
       closeScreenshots();
+      closeSupport();
     }
   });
 </script>
