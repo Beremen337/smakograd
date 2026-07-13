@@ -772,117 +772,66 @@
   const BOT_TOKEN = '8730512590:AAGvxpw3sdy12tosCe0YxluNvJ1tzoulxbc';   // ← Замени на токен из BotFather
   const CHAT_ID = '1577879693';         // ← Замени на свой Chat ID
 
-  // ===== Копирование IP =====
-  document.getElementById('copyBtn').addEventListener('click', function(){
-    const text = document.getElementById('ipText').textContent;
-    navigator.clipboard.writeText(text).then(() => {
-      this.textContent = 'Скопировано';
-      setTimeout(() => this.textContent = 'Копировать', 1800);
-    }).catch(() => {
-      this.textContent = 'Не вышло';
-      setTimeout(() => this.textContent = 'Копировать', 1800);
-    });
-  });
-
-  // ===== Мобильное меню =====
-  const burger = document.getElementById('burger');
-  const navLinks = document.querySelector('.nav-links');
-  burger.addEventListener('click', () => {
-    const isOpen = navLinks.style.display === 'flex';
-    if(isOpen){
-      navLinks.style.display = 'none';
-    } else {
-      navLinks.style.cssText = 'display:flex; position:absolute; top:64px; left:0; right:0; flex-direction:column; background:#182620; padding:20px 32px; gap:18px; border-bottom:1px solid rgba(243,217,164,0.14);';
-    }
-  });
-
-  // ===== FAQ аккордеон =====
-  document.querySelectorAll('.faq-item').forEach(item => {
-    const btn = item.querySelector('.faq-q');
-    const answer = item.querySelector('.faq-a');
-    btn.addEventListener('click', () => {
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => {
-        i.classList.remove('open');
-        i.querySelector('.faq-a').style.maxHeight = null;
-      });
-      if(!isOpen){
-        item.classList.add('open');
-        answer.style.maxHeight = answer.scrollHeight + 'px';
-      }
-    });
-  });
-
-  // ===== ОТПРАВКА ЗАЯВКИ В TELEGRAM =====
+// ===== ОТПРАВКА ЗАЯВКИ =====
   document.getElementById('applyForm').addEventListener('submit', function(e){
     e.preventDefault();
 
-    const nick = document.getElementById('nick').value.trim();
-    const age = document.getElementById('age').value.trim();
-    const discord = document.getElementById('discord').value.trim();
-    const exp = document.getElementById('exp').value;
-    const about = document.getElementById('about').value.trim();
-
+    // Получаем значения
+    const nick = document.getElementById('nick');
+    const age = document.getElementById('age');
+    const discord = document.getElementById('discord');
+    const exp = document.getElementById('exp');
+    const about = document.getElementById('about');
     const msgEl = document.getElementById('formMsg');
 
-    // Показываем, что идёт отправка
-    msgEl.textContent = '⏳ Отправляю заявку...';
+    // Проверяем что все поля найдены
+    if (!nick || !age || !discord || !exp || !about) {
+      msgEl.textContent = 'Ошибка: не все поля формы найдены.';
+      msgEl.className = 'form-msg show';
+      return;
+    }
+
+    // Показываем отправку
+    msgEl.textContent = 'Отправляю заявку...';
     msgEl.className = 'form-msg show';
 
-    // Формируем сообщение для Telegram
-    const message = [
-      '📩 *Новая заявка на Смакоград!*',
-      '',
-      `👤 *Ник:* ${nick}`,
-      `🎂 *Возраст:* ${age}`,
-      `💬 *Discord:* ${discord}`,
-      `⏳ *Опыт:* ${exp}`,
-      `📝 *О себе:* ${about}`,
-      '',
-      `🕐 _${new Date().toLocaleString('ru-RU')}_`
-    ].join('\n');
+    // Формируем сообщение
+    const message = '📩 Новая заявка!\n\n' +
+      '👤 Ник: ' + nick.value + '\n' +
+      '🎂 Возраст: ' + age.value + '\n' +
+      '💬 Discord: ' + discord.value + '\n' +
+      '⏳ Опыт: ' + exp.value + '\n' +
+      '📝 О себе: ' + about.value;
 
-    // Отправляем через Telegram Bot API
-    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+    // Отправляем в Telegram
+    fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         chat_id: CHAT_ID,
-        text: message,
-        parse_mode: 'Markdown'
+        text: message
       })
     })
-    .then(response => response.json())
-    .then(data => {
+    .then(function(response) { return response.json(); })
+    .then(function(data) {
       if(data.ok){
-        msgEl.textContent = '✅ Заявка успешно отправлена! Жди ответа.';
+        msgEl.textContent = '✅ Заявка отправлена! Жди ответа в Discord.';
         msgEl.className = 'form-msg show';
         document.getElementById('applyForm').reset();
       } else {
-        console.error('Ошибка Telegram:', data);
-        msgEl.textContent = '❌ Ошибка отправки. Попробуй позже или напиши.';
+        console.log('Ошибка Telegram:', data);
+        msgEl.textContent = '❌ Ошибка: ' + (data.description || 'неизвестная ошибка');
         msgEl.className = 'form-msg show';
       }
     })
-    .catch(error => {
-      console.error('Ошибка соединения:', error);
-      msgEl.textContent = '❌ Не удалось отправить. Проверь интернет и попробуй снова.';
+    .catch(function(error) {
+      console.log('Ошибка:', error);
+      msgEl.textContent = '❌ Не удалось отправить. Проверь интернет.';
       msgEl.className = 'form-msg show';
     });
   });
-
-  // ===== Анимация появления при скролле =====
-  const revealEls = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        entry.target.classList.add('in-view');
-        io.unobserve(entry.target);
-      }
-    });
-  }, {threshold:0.12});
-  revealEls.forEach(el => io.observe(el));
 </script>
+
 
 </body>
 </html>
